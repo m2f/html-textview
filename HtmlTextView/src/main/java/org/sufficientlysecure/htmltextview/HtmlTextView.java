@@ -54,7 +54,9 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
     }
 
     /**
+     *
      * @see org.sufficientlysecure.htmltextview.HtmlTextView#setHtml(int)
+     * @param resId
      */
     public void setHtml(@RawRes int resId) {
         setHtml(resId, null);
@@ -62,6 +64,7 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
 
     /**
      * @see org.sufficientlysecure.htmltextview.HtmlTextView#setHtml(String)
+     * @param html
      */
     public void setHtml(@NonNull String html) {
         setHtml(html, null);
@@ -107,6 +110,7 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
 
     /**
      * Note that this must be called before setting text for it to work
+     * @param removeFromHtmlSpace
      */
     public void setRemoveFromHtmlSpace(boolean removeFromHtmlSpace) {
         this.removeFromHtmlSpace = removeFromHtmlSpace;
