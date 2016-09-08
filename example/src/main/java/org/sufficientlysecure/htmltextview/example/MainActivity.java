@@ -75,6 +75,9 @@ public class MainActivity extends Activity {
         if (item.getItemId() == R.id.action_view_data_binding) {
             startActivity(new Intent(this, DataBindingExampleActivity.class));
             return true;
+        } else if(item.getItemId() == R.id.action_view_expandable) {
+            startActivity(new Intent(this, ExpandableViewActivity.class));
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

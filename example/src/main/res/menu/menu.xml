@@ -6,4 +6,10 @@
         android:id="@+id/action_view_data_binding"
         android:title="@string/data_binding_activity"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_view_expandable"
+        android:title="@string/expandable_view"
+        app:showAsAction="never" />
+
 </menu>

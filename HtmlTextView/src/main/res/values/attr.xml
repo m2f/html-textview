@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="collapsedLines" format="integer" />
+    <attr name="animationDuration" format="integer" />
+    <attr name="textContent" format="string" localization="suggested" />
+    <attr name="buttonText" format="string" localization="suggested" />
+
+    <declare-styleable name="ExpandableTextView">
+        <attr name="collapsedLines" />
+        <attr name="animationDuration" />
+    </declare-styleable>
+
+    <declare-styleable name="ExpandableHtmlTextView">
+        <attr name="collapsedLines" />
+        <attr name="animationDuration" />
+    </declare-styleable>
+
+    <declare-styleable name="ExpandableView">
+        <attr name="textContent" />
+        <attr name="buttonText" />
+        <attr name="collapsedLines" />
+        <attr name="animationDuration" />
+    </declare-styleable>
+
+</resources>
