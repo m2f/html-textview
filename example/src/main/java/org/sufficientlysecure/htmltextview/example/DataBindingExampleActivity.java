@@ -42,7 +42,7 @@ public class DataBindingExampleActivity extends Activity {
 
         // in XML we declared a variable newsItem, data binding generated the set method
         // once set, all fields/values/views are updated accordingly
-        binding.setNewsItem(item);
+        //binding.setNewsItem(item);
 
         // if you have set an android:id in XML, data binding do the 'findViewById()'
         DrawTableLinkSpan drawTableLinkSpan = new DrawTableLinkSpan();
@@ -61,26 +61,5 @@ public class DataBindingExampleActivity extends Activity {
     @BindingAdapter({"html"})
     public static void displayHtml(HtmlTextView view, @Nullable String html) {
         view.setHtml(html, new HtmlResImageGetter(view));
-    }
-
-    /**
-     * A plain old Java object that holds a HTML string.
-     */
-    public static class NewsItem {
-
-        private String html;
-
-        public void setHtml(String html) {
-            this.html = html;
-        }
-
-        /**
-         * This method is called by data binding as we declared app:html="@{newsItem.html}"
-         *
-         * @return the HTML string that will be set into {@link HtmlTextView}
-         */
-        public String getHtml() {
-            return html;
-        }
     }
 }

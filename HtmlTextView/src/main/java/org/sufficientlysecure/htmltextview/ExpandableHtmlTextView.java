@@ -1,38 +1,23 @@
 package org.sufficientlysecure.htmltextview;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.TimeInterpolator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.Layout;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
-/**
- *
- *  Referenced from :
- * https://codexplo.wordpress.com/2013/09/07/android-expandable-textview/
- * And
- * https://github.com/Blogcat/Android-ExpandableHtmlTextView/blob/master/expandabletextview/src/main/java/at/blogc/android/views/ExpandableHtmlTextView.java
- *
- */
-public class ExpandableHtmlTextView extends HtmlTextView {
+public class ExpandableHtmlTextView extends LinearLayout implements View.OnClickListener {
 
-    public static final int DEFAULT_COLLAPSED_LINES = 2;
-    public static final int DEFAULT_ANIMATION_DURATION = 750;
-
-    private final int maxLines;
+    private HtmlTextViewExpandable htmlTextViewExpandable;
+    private Button readMoreButton;
+    private boolean isCollapsed;
+    private boolean enableHtmlGetter;
     private int collapsedLines;
-    private int animationDuration;
-    private boolean animating;
-    private boolean expanded;
-    private int collapsedHeight;
-
-    private TimeInterpolator expandInterpolator;
-    private TimeInterpolator collapseInterpolator;
+    private String moreButtonText;
+    private String lessButtonText;
 
     public ExpandableHtmlTextView(Context context) {
         this(context, null);
@@ -40,147 +25,64 @@ public class ExpandableHtmlTextView extends HtmlTextView {
 
     public ExpandableHtmlTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableHtmlTextView);
-        this.collapsedLines = typedArray.getInt(R.styleable.ExpandableHtmlTextView_collapsedLines, DEFAULT_COLLAPSED_LINES);
-        this.animationDuration = typedArray.getInt(R.styleable.ExpandableHtmlTextView_animationDuration, DEFAULT_ANIMATION_DURATION);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableHtmlTextView, 0, 0);
+        String htmlContent = typedArray.getString(R.styleable.ExpandableHtmlTextView_htmlContent);
+        moreButtonText = typedArray.getString(R.styleable.ExpandableHtmlTextView_moreButtonText);
+        lessButtonText = typedArray.getString(R.styleable.ExpandableHtmlTextView_lessButtonText);
+        isCollapsed = typedArray.getBoolean(R.styleable.ExpandableHtmlTextView_isCollapsed, true);
+        enableHtmlGetter = typedArray.getBoolean(R.styleable.ExpandableHtmlTextView_enableImageGetter, false);
+        collapsedLines = typedArray.getInt(R.styleable.ExpandableHtmlTextView_collapsedLines, HtmlTextViewExpandable.DEFAULT_COLLAPSED_LINES);
+        int animationDuration = typedArray.getInt(R.styleable.ExpandableHtmlTextView_animationDuration, HtmlTextViewExpandable.DEFAULT_ANIMATION_DURATION);
         typedArray.recycle();
 
-        this.setMaxLines(collapsedLines);
+        setOrientation(LinearLayout.VERTICAL);
 
-        maxLines = super.getMaxLines();
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.expandable_html_view, this, true);
 
-        // create default interpolators
-        this.expandInterpolator = new AccelerateDecelerateInterpolator();
-        this.collapseInterpolator = new AccelerateDecelerateInterpolator();
-    }
-
-    public boolean toggle() {
-        return this.expanded ? this.collapse() : this.expand();
-    }
-
-    /**
-     * Expand this {@link ExpandableHtmlTextView}.
-     * @return true if expanded, false otherwise.
-     */
-    public boolean expand() {
-        if (!this.expanded && !this.animating && this.maxLines >= 0) {
-            this.animating = true;
-
-            // get collapsed height
-            this.measure(MeasureSpec.makeMeasureSpec(this.getMeasuredWidth(), MeasureSpec.EXACTLY),
-                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-
-            this.collapsedHeight = this.getMeasuredHeight();
-
-            // set maxLines to MAX Integer, so we can calculate the expanded height
-            this.setMaxLines(Integer.MAX_VALUE);
-
-            // get expanded height
-            this.measure(MeasureSpec.makeMeasureSpec(this.getMeasuredWidth(), MeasureSpec.EXACTLY),
-                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-
-            final int expandedHeight = this.getMeasuredHeight();
-
-            // animate from collapsed height to expanded height
-            final ValueAnimator valueAnimator = ValueAnimator.ofInt(this.collapsedHeight, expandedHeight);
-            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(final ValueAnimator animation) {
-                    final ViewGroup.LayoutParams layoutParams = ExpandableHtmlTextView.this.getLayoutParams();
-                    layoutParams.height = (int) animation.getAnimatedValue();
-                    ExpandableHtmlTextView.this.setLayoutParams(layoutParams);
-                }
-            });
-
-            valueAnimator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(final Animator animation) {
-                    // if fully expanded, set height to WRAP_CONTENT, because when rotating the device
-                    // the height calculated with this ValueAnimator isn't correct anymore
-                    final ViewGroup.LayoutParams layoutParams = ExpandableHtmlTextView.this.getLayoutParams();
-                    layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                    ExpandableHtmlTextView.this.setLayoutParams(layoutParams);
-
-                    // keep track of current status
-                    ExpandableHtmlTextView.this.expanded = true;
-                    ExpandableHtmlTextView.this.animating = false;
-                }
-            });
-
-            // set interpolator
-            valueAnimator.setInterpolator(this.expandInterpolator);
-
-            // start the animation
-            valueAnimator
-                    .setDuration(this.animationDuration)
-                    .start();
-
-            return true;
+        htmlTextViewExpandable = (HtmlTextViewExpandable) getChildAt(0);
+        htmlTextViewExpandable.setAnimationDuration(animationDuration);
+        htmlTextViewExpandable.setCollapsedLines(collapsedLines);
+        if(isCollapsed) {
+            htmlTextViewExpandable.setExpanded(false);
+            htmlTextViewExpandable.setMaxLines(collapsedLines);
+        } else {
+            htmlTextViewExpandable.setExpanded(true);
+            htmlTextViewExpandable.setMaxLines(Integer.MAX_VALUE);
         }
+        setHtmlContent(htmlContent);
 
-        return false;
+        readMoreButton = (Button) getChildAt(1);
+        readMoreButton.setText(isCollapsed ? moreButtonText : lessButtonText);
+        readMoreButton.setOnClickListener(this);
     }
 
-    /**
-     * Collapse this {@link TextView}.
-     * @return true if collapsed, false otherwise.
-     */
-    public boolean collapse() {
-        if (this.expanded && !this.animating && this.maxLines >= 0) {
-            this.animating = true;
+    @Override
+    public void onClick(View v) {
+        htmlTextViewExpandable.toggle();
+        readMoreButton.setText(htmlTextViewExpandable.isExpanded() ? lessButtonText : moreButtonText);
+    }
 
-            // get expanded height
-            final int expandedHeight = this.getMeasuredHeight();
-
-            // animate from expanded height to collapsed height
-            final ValueAnimator valueAnimator = ValueAnimator.ofInt(expandedHeight, this.collapsedHeight);
-            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(final ValueAnimator animation) {
-                    final ViewGroup.LayoutParams layoutParams = ExpandableHtmlTextView.this.getLayoutParams();
-                    layoutParams.height = (int) animation.getAnimatedValue();
-                    ExpandableHtmlTextView.this.setLayoutParams(layoutParams);
-                }
-            });
-
-            valueAnimator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(final Animator animation) {
-                    // set maxLines to original value
-                    ExpandableHtmlTextView.this.setMaxLines(ExpandableHtmlTextView.this.maxLines);
-
-                    // if fully collapsed, set height to WRAP_CONTENT, because when rotating the device
-                    // the height calculated with this ValueAnimator isn't correct anymore
-                    final ViewGroup.LayoutParams layoutParams = ExpandableHtmlTextView.this.getLayoutParams();
-                    layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                    ExpandableHtmlTextView.this.setLayoutParams(layoutParams);
-
-                    // keep track of current status
-                    ExpandableHtmlTextView.this.expanded = false;
-                    ExpandableHtmlTextView.this.animating = false;
-                }
-            });
-
-            // set interpolator
-            valueAnimator.setInterpolator(this.collapseInterpolator);
-
-            // start the animation
-            valueAnimator
-                    .setDuration(this.animationDuration)
-                    .start();
-
-            return true;
+    public void setHtmlContent(String htmlContent) {
+        if(null == htmlContent) htmlContent = "";
+        if(enableHtmlGetter) {
+            htmlTextViewExpandable.setHtml(htmlContent, new HtmlHttpImageGetter(htmlTextViewExpandable));
+        } else {
+            htmlTextViewExpandable.setHtml(htmlContent);
         }
-
-        return false;
-    }
-
-    /**
-     * Sets the duration of the expand / collapse animation.
-     * @param animationDuration duration in milliseconds.
-     */
-    public void setAnimationDuration(final int animationDuration) {
-        this.animationDuration = animationDuration;
+        htmlTextViewExpandable.post(new Runnable() {
+            @Override
+            public void run() {
+                Layout layout = htmlTextViewExpandable.getLayout();
+                if(layout != null) {
+                    int lineCount = layout.getLineCount();
+                    if(lineCount > 0) {
+                        int ellipsisCount = layout.getEllipsisCount(lineCount - 1);
+                        boolean isVisible = ellipsisCount > 0 || lineCount > collapsedLines;
+                        readMoreButton.setVisibility( isVisible ? VISIBLE : GONE);
+                    }
+                }
+            }
+        });
     }
 }

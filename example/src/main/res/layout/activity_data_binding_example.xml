@@ -7,7 +7,7 @@
 
         <variable
             name="newsItem"
-            type="org.sufficientlysecure.htmltextview.example.DataBindingExampleActivity.NewsItem" />
+            type="org.sufficientlysecure.htmltextview.example.NewsItem" />
     </data>
 
     <LinearLayout

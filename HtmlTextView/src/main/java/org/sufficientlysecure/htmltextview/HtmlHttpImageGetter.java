@@ -57,6 +57,7 @@ public class HtmlHttpImageGetter implements ImageGetter {
         }
     }
 
+    @Override
     public Drawable getDrawable(String source) {
         UrlDrawable urlDrawable = new UrlDrawable();
 
