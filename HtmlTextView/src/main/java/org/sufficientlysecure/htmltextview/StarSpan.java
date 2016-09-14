@@ -13,6 +13,8 @@ import android.widget.RatingBar;
 
 public class StarSpan implements LeadingMarginSpan, ParcelableSpan {
 
+    private static final int STAR_SPAN = 999;
+
     private final int mGapWidth;
     private final boolean mWantColor;
     private final int mColor;
@@ -64,12 +66,7 @@ public class StarSpan implements LeadingMarginSpan, ParcelableSpan {
     }
 
     public int getSpanTypeId() {
-        return getSpanTypeIdInternal();
-    }
-
-    /** @hide */
-    public int getSpanTypeIdInternal() {
-        return 0;
+        return STAR_SPAN;
     }
 
     public int describeContents() {
@@ -80,7 +77,6 @@ public class StarSpan implements LeadingMarginSpan, ParcelableSpan {
         writeToParcelInternal(dest, flags);
     }
 
-    /** @hide */
     public void writeToParcelInternal(Parcel dest, int flags) {
         dest.writeInt(mGapWidth);
         dest.writeInt(mWantColor ? 1 : 0);

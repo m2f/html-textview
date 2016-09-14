@@ -11,6 +11,10 @@ android {
         versionCode 8
         versionName '2.0'
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 publish {
