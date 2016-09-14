@@ -18,7 +18,7 @@ import android.widget.TextView;
  * https://github.com/Blogcat/Android-ExpandableTextView/blob/master/expandabletextview/src/main/java/at/blogc/android/views/ExpandableTextView.java
  *
  */
-class ExpandableBulletTextView extends BulletTextView {
+public class ExpandableBulletTextView extends BulletTextView {
 
     public static final int DEFAULT_COLLAPSED_LINES = 3;
     public static final int DEFAULT_ANIMATION_DURATION = 250;

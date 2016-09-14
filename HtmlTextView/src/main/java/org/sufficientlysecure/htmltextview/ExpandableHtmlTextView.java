@@ -18,7 +18,7 @@ import android.widget.TextView;
  * https://github.com/Blogcat/Android-ExpandableHtmlTextView/blob/master/expandabletextview/src/main/java/at/blogc/android/views/ExpandableHtmlTextView.java
  *
  */
-class ExpandableHtmlTextView extends HtmlTextView {
+public class ExpandableHtmlTextView extends HtmlTextView {
 
     public static final int DEFAULT_COLLAPSED_LINES = 3;
     public static final int DEFAULT_ANIMATION_DURATION = 250;
