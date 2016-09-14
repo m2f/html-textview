@@ -33,13 +33,28 @@ public class ExpandableViewActivity extends Activity {
                 "            Hello this is in a paragraph, and is long, just joking" +
                 "        </p>";
 
+        String[] pointers = new String[]{
+                "Lists of advertising characters",
+                "Lists of characters from The Office",
+                "Lists of Coronation Street characters",
+                "Lists of CSI characters",
+                "Lists of Emmerdale characters",
+                "Lists of fictional Presidents of the United States who was a not a president at all in the history",
+                "Lists of Hollyoaks characters",
+                "Lists of Stargate characters",
+                "Lists of The Walking Dead characters",
+                "Lists of Transformers characters",
+        };
+
         // create dummy item
         NewsItem item = new NewsItem();
         item.setHtml(content);
         item.setText(this.getString(R.string.simple_text_content));
+        item.setArrayContent(pointers);
 
         // in XML we declared a variable newsItem, data binding generated the set method
         // once set, all fields/values/views are updated accordingly
+
         binding.setNewsItem(item);
     }
 }

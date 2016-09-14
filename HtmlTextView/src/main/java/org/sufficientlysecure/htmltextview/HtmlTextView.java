@@ -17,11 +17,13 @@
 package org.sufficientlysecure.htmltextview;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RawRes;
 import android.text.Html;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import java.io.InputStream;
@@ -31,6 +33,7 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
 
     public static final String TAG = "HtmlTextView";
     public static final boolean DEBUG = false;
+    private boolean enableHtmlGetter;
 
     boolean linkHit;
     @Nullable
@@ -43,21 +46,41 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
 
     public HtmlTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        init(context, attrs);
     }
 
     public HtmlTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs);
     }
 
     public HtmlTextView(Context context) {
         super(context);
     }
 
-    /**
-     *
-     * @see org.sufficientlysecure.htmltextview.HtmlTextView#setHtml(int)
-     * @param resId
-     */
+    private void init(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableHtmlView, 0, 0);
+        String htmlContent = typedArray.getString(R.styleable.ExpandableHtmlView_htmlContent);
+        enableHtmlGetter = typedArray.getBoolean(R.styleable.ExpandableHtmlView_enableImageGetter, false);
+        typedArray.recycle();
+        if(null != htmlContent) {
+            setHtmlContent(htmlContent);
+        }
+    }
+
+    public void setHtmlContent(String htmlContent) {
+        if (null == htmlContent) htmlContent = "";
+        if (enableHtmlGetter) {
+            setHtml(htmlContent, new HtmlHttpImageGetter(this));
+        } else {
+            setHtml(htmlContent);
+        }
+    }
+        /**
+         *
+         * @see org.sufficientlysecure.htmltextview.HtmlTextView#setHtml(int)
+         * @param resId
+         */
     public void setHtml(@RawRes int resId) {
         setHtml(resId, null);
     }

@@ -2,6 +2,7 @@
     <string name="app_name">HtmlTextView Example</string>
     <string name="data_binding_activity">View Data Binding Activity</string>
     <string name="expandable_view">Expandable View</string>
+    <string name="custom_view">Custom View</string>
     <string name="small_text_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit</string>
     <string name="simple_text_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ut eros sed arcu auctor tincidunt
     id sit amet elit. Mauris in faucibus neque. Suspendisse facilisis urna nec nisi convallis tincidunt.

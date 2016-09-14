@@ -22,7 +22,7 @@
             android:name=".WebViewActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".DataBindingExampleActivity" />
-        <activity android:name=".ExpandableViewActivity"></activity>
+        <activity android:name=".ExpandableViewActivity" />
     </application>
 
 </manifest>

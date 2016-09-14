@@ -72,13 +72,15 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_view_data_binding) {
-            startActivity(new Intent(this, DataBindingExampleActivity.class));
-            return true;
-        } else if(item.getItemId() == R.id.action_view_expandable) {
-            startActivity(new Intent(this, ExpandableViewActivity.class));
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_view_data_binding:
+                startActivity(new Intent(this, DataBindingExampleActivity.class));
+                return true;
+            case R.id.action_view_expandable:
+                startActivity(new Intent(this, ExpandableViewActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 }

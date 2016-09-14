@@ -9,12 +9,16 @@ public class NewsItem {
 
     private String text;
     private String html;
+    private String[] arrayContent;
 
-    /**
-     * This method is called by data binding as we declared app:html="@{newsItem.html}"
-     *
-     * @return the HTML string that will be set into {@link HtmlTextView}
-     */
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
     public String getHtml() {
         return html;
     }
@@ -23,12 +27,12 @@ public class NewsItem {
         this.html = html;
     }
 
-    public String getText() {
-        return text;
+    public String[] getArrayContent() {
+        return arrayContent;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setArrayContent(String[] arrayContent) {
+        this.arrayContent = arrayContent;
     }
 }
 

@@ -12,13 +12,13 @@ import android.widget.TextView;
 
 /**
  *
- * Referenced from :
+ *  Referenced from :
  * https://codexplo.wordpress.com/2013/09/07/android-expandable-textview/
  * And
- * https://github.com/Blogcat/Android-ExpandableHtmlTextView/blob/master/expandabletextview/src/main/java/at/blogc/android/views/ExpandableHtmlTextView.java
+ * https://github.com/Blogcat/Android-ExpandableTextView/blob/master/expandabletextview/src/main/java/at/blogc/android/views/ExpandableTextView.java
  *
  */
-class HtmlTextViewExpandable extends HtmlTextView {
+class ExpandableBulletTextView extends BulletTextView {
 
     public static final int DEFAULT_COLLAPSED_LINES = 3;
     public static final int DEFAULT_ANIMATION_DURATION = 250;
@@ -33,11 +33,11 @@ class HtmlTextViewExpandable extends HtmlTextView {
     private TimeInterpolator expandInterpolator;
     private TimeInterpolator collapseInterpolator;
 
-    public HtmlTextViewExpandable(Context context) {
+    public ExpandableBulletTextView(Context context) {
         this(context, null);
     }
 
-    public HtmlTextViewExpandable(Context context, AttributeSet attrs) {
+    public ExpandableBulletTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         // create default interpolators
         this.expandInterpolator = new AccelerateDecelerateInterpolator();
@@ -49,7 +49,7 @@ class HtmlTextViewExpandable extends HtmlTextView {
     }
 
     /**
-     * Expand this {@link HtmlTextViewExpandable}.
+     * Expand this {@link ExpandableBulletTextView}.
      * @return true if expanded, false otherwise.
      */
     public boolean expand() {
@@ -81,9 +81,9 @@ class HtmlTextViewExpandable extends HtmlTextView {
             valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(final ValueAnimator animation) {
-                    final ViewGroup.LayoutParams layoutParams = HtmlTextViewExpandable.this.getLayoutParams();
+                    final ViewGroup.LayoutParams layoutParams = ExpandableBulletTextView.this.getLayoutParams();
                     layoutParams.height = (int) animation.getAnimatedValue();
-                    HtmlTextViewExpandable.this.setLayoutParams(layoutParams);
+                    ExpandableBulletTextView.this.setLayoutParams(layoutParams);
                 }
             });
 
@@ -92,12 +92,12 @@ class HtmlTextViewExpandable extends HtmlTextView {
                 public void onAnimationEnd(final Animator animation) {
                     // if fully expanded, set height to WRAP_CONTENT, because when rotating the device
                     // the height calculated with this ValueAnimator isn't correct anymore
-                    final ViewGroup.LayoutParams layoutParams = HtmlTextViewExpandable.this.getLayoutParams();
+                    final ViewGroup.LayoutParams layoutParams = ExpandableBulletTextView.this.getLayoutParams();
                     layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                    HtmlTextViewExpandable.this.setLayoutParams(layoutParams);
+                    ExpandableBulletTextView.this.setLayoutParams(layoutParams);
 
                     // keep track of current status
-                    HtmlTextViewExpandable.this.animating = false;
+                    ExpandableBulletTextView.this.animating = false;
                 }
             });
 
@@ -134,7 +134,7 @@ class HtmlTextViewExpandable extends HtmlTextView {
 
             if(0 == collapsedHeight) {
                 // set maxLines to collapsed lines, so we can calculate the collapsed height
-                this.setMaxLines(collapsedLines);
+                this.setMaxLines(this.collapsedLines);
 
                 // get collapsed height
                 this.measure(MeasureSpec.makeMeasureSpec(this.getMeasuredWidth(), MeasureSpec.EXACTLY),
@@ -149,13 +149,12 @@ class HtmlTextViewExpandable extends HtmlTextView {
 
             // animate from expanded height to collapsed height
             final ValueAnimator valueAnimator = ValueAnimator.ofInt(this.expandedHeight, this.collapsedHeight);
-
             valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(final ValueAnimator animation) {
-                    final ViewGroup.LayoutParams layoutParams = HtmlTextViewExpandable.this.getLayoutParams();
+                    final ViewGroup.LayoutParams layoutParams = ExpandableBulletTextView.this.getLayoutParams();
                     layoutParams.height = (int) animation.getAnimatedValue();
-                    HtmlTextViewExpandable.this.setLayoutParams(layoutParams);
+                    ExpandableBulletTextView.this.setLayoutParams(layoutParams);
                 }
             });
 
@@ -163,16 +162,15 @@ class HtmlTextViewExpandable extends HtmlTextView {
                 @Override
                 public void onAnimationEnd(final Animator animation) {
                     // set maxLines to original value
-                    HtmlTextViewExpandable.this.setMaxLines(HtmlTextViewExpandable.this.collapsedLines);
+                    ExpandableBulletTextView.this.setMaxLines(ExpandableBulletTextView.this.collapsedLines);
 
                     // if fully collapsed, set height to WRAP_CONTENT, because when rotating the device
                     // the height calculated with this ValueAnimator isn't correct anymore
-                    final ViewGroup.LayoutParams layoutParams = HtmlTextViewExpandable.this.getLayoutParams();
+                    final ViewGroup.LayoutParams layoutParams = ExpandableBulletTextView.this.getLayoutParams();
                     layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                    HtmlTextViewExpandable.this.setLayoutParams(layoutParams);
+                    ExpandableBulletTextView.this.setLayoutParams(layoutParams);
 
-                    // keep track of current status
-                    HtmlTextViewExpandable.this.animating = false;
+                    ExpandableBulletTextView.this.animating = false;
                 }
             });
 
@@ -191,10 +189,6 @@ class HtmlTextViewExpandable extends HtmlTextView {
         return false;
     }
 
-    /**
-     * Sets the duration of the expand / collapse animation.
-     * @param animationDuration duration in milliseconds.
-     */
     public void setAnimationDuration(final int animationDuration) {
         this.animationDuration = animationDuration;
     }

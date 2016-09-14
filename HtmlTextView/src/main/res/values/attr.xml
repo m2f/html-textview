@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="isCollapsed" format="boolean"/>
-    <attr name="enableImageGetter" format="boolean"/>
     <attr name="collapsedLines" format="integer" />
     <attr name="animationDuration" format="integer" />
-    <attr name="htmlContent" format="string" localization="suggested" />
-    <attr name="textContent" format="string" localization="suggested" />
     <attr name="moreButtonText" format="string" localization="suggested" />
     <attr name="lessButtonText" format="string" localization="suggested" />
 
-    <declare-styleable name="ExpandableTextView">
-        <attr name="textContent" />
+    <declare-styleable name="ExpandableContentView">
+        <attr name="textContent" format="string" localization="suggested" />
         <attr name="isCollapsed" />
         <attr name="moreButtonText" />
         <attr name="lessButtonText" />
@@ -18,14 +15,37 @@
         <attr name="animationDuration" />
     </declare-styleable>
 
-    <declare-styleable name="ExpandableHtmlTextView">
+
+    <attr name="htmlContent" format="string" localization="suggested" />
+    <attr name="enableImageGetter" format="boolean"/>
+
+    <declare-styleable name="ExpandableHtmlView">
         <attr name="htmlContent" />
+        <attr name="enableImageGetter" />
         <attr name="isCollapsed" />
         <attr name="moreButtonText" />
         <attr name="lessButtonText" />
         <attr name="collapsedLines" />
         <attr name="animationDuration" />
+    </declare-styleable>
+
+    <declare-styleable name="HtmlTextView">
+        <attr name="htmlContent" />
         <attr name="enableImageGetter" />
+    </declare-styleable>
+
+    <attr name="arrayContent" format="reference" />
+    <declare-styleable name="ExpandableBulletView">
+        <attr name="arrayContent" />
+        <attr name="isCollapsed" />
+        <attr name="moreButtonText" />
+        <attr name="lessButtonText" />
+        <attr name="collapsedLines" />
+        <attr name="animationDuration" />
+    </declare-styleable>
+
+    <declare-styleable name="BulletTextView">
+        <attr name="arrayContent" />
     </declare-styleable>
 
 </resources>
