@@ -79,6 +79,9 @@ public class MainActivity extends Activity {
             case R.id.action_view_expandable:
                 startActivity(new Intent(this, ExpandableViewActivity.class));
                 return true;
+            case R.id.text_style_test:
+                startActivity(new Intent(this, TextStyleTest.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

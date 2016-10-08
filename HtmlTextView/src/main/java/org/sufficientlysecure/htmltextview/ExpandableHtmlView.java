@@ -2,8 +2,10 @@ package org.sufficientlysecure.htmltextview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.text.Layout;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +35,9 @@ public class ExpandableHtmlView extends LinearLayout implements View.OnClickList
         enableHtmlGetter = typedArray.getBoolean(R.styleable.ExpandableHtmlView_enableImageGetter, false);
         collapsedLines = typedArray.getInt(R.styleable.ExpandableHtmlView_collapsedLines, ExpandableHtmlTextView.DEFAULT_COLLAPSED_LINES);
         int animationDuration = typedArray.getInt(R.styleable.ExpandableHtmlView_animationDuration, ExpandableHtmlTextView.DEFAULT_ANIMATION_DURATION);
+        int textSize = typedArray.getDimensionPixelSize(R.styleable.ExpandableHtmlView_textSize, 0);
+        String textColor = typedArray.getString(R.styleable.ExpandableHtmlView_textColor);
+
         typedArray.recycle();
 
         setOrientation(LinearLayout.VERTICAL);
@@ -41,6 +46,9 @@ public class ExpandableHtmlView extends LinearLayout implements View.OnClickList
         inflater.inflate(R.layout.expandable_html_view, this, true);
 
         expandableHtmlTextView = (ExpandableHtmlTextView) getChildAt(0);
+        if(textSize > 0) expandableHtmlTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+        if(null != textColor) expandableHtmlTextView.setTextColor(Color.parseColor(textColor));
+
         expandableHtmlTextView.setAnimationDuration(animationDuration);
         expandableHtmlTextView.setCollapsedLines(collapsedLines);
         if(isCollapsed) {
@@ -84,5 +92,9 @@ public class ExpandableHtmlView extends LinearLayout implements View.OnClickList
                 }
             }
         });
+    }
+
+    public ExpandableHtmlTextView getExpandableHtmlTextView() {
+        return expandableHtmlTextView;
     }
 }

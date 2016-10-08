@@ -2,8 +2,10 @@ package org.sufficientlysecure.htmltextview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.text.Layout;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +39,9 @@ public class ExpandableBulletView extends LinearLayout implements View.OnClickLi
         isCollapsed = typedArray.getBoolean(R.styleable.ExpandableBulletView_isCollapsed, true);
         collapsedLines = typedArray.getInt(R.styleable.ExpandableBulletView_collapsedLines, ExpandableBulletTextView.DEFAULT_COLLAPSED_LINES);
         int animationDuration = typedArray.getInt(R.styleable.ExpandableBulletView_animationDuration, ExpandableBulletTextView.DEFAULT_ANIMATION_DURATION);
+        int textSize = typedArray.getDimensionPixelSize(R.styleable.ExpandableBulletView_textSize, 0);
+        String textColor = typedArray.getString(R.styleable.ExpandableBulletView_textColor);
+
         typedArray.recycle();
 
         setOrientation(LinearLayout.VERTICAL);
@@ -45,6 +50,9 @@ public class ExpandableBulletView extends LinearLayout implements View.OnClickLi
         inflater.inflate(R.layout.expandable_bullet_view, this, true);
 
         expandableBulletTextView = (ExpandableBulletTextView) getChildAt(0);
+        if(textSize > 0) expandableBulletTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+        if(null != textColor) expandableBulletTextView.setTextColor(Color.parseColor(textColor));
+
         expandableBulletTextView.setAnimationDuration(animationDuration);
         expandableBulletTextView.setCollapsedLines(collapsedLines);
         if(isCollapsed) {
@@ -84,5 +92,9 @@ public class ExpandableBulletView extends LinearLayout implements View.OnClickLi
                 }
             }
         });
+    }
+
+    public ExpandableBulletTextView getExpandableBulletTextView() {
+        return expandableBulletTextView;
     }
 }

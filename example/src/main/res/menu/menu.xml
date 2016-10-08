@@ -12,4 +12,9 @@
         android:title="@string/expandable_view"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/text_style_test"
+        android:title="Text Style Test"
+        app:showAsAction="always" />
+
 </menu>

@@ -23,6 +23,10 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".DataBindingExampleActivity" />
         <activity android:name=".ExpandableViewActivity" />
+
+        <activity
+            android:name=".TextStyleTest"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>
